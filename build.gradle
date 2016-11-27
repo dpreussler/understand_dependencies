@@ -11,6 +11,7 @@ buildscript {
         // in the individual module build.gradle files
     }
 
+    ext.dagger_version = '2.7'
     ext.toothpick_version = '1.0.2'
 }
 
