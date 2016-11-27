@@ -18,9 +18,8 @@ public class SimpleActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Dependencies.inject(this);
+        Dependencies.getInstance(getApplication()).inject(this);
         tracker.trackStarted();
-
         // TODO do something with the serviceManager...
     }
 }

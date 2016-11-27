@@ -9,6 +9,10 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Dependencies.init(this);
+        initToothpick();
+    }
+
+    private void initToothpick() {
+        Dependencies.getInstance(this);
     }
 }

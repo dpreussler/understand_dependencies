@@ -39,17 +39,13 @@ apt {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    apt "com.github.stephanenicolas.toothpick:toothpick-compiler:$toothpick_version"
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.google.dagger:dagger:2.7'
-    compile 'com.squareup.dagger:dagger:1.2.5'
-    testCompile 'org.mockito:mockito-core:2.2.26'
     compile "com.github.stephanenicolas.toothpick:toothpick-runtime:$toothpick_version"
     compile "com.github.stephanenicolas.toothpick:smoothie:$toothpick_version"
     compile "com.github.stephanenicolas.toothpick:toothpick:$toothpick_version"
-    apt "com.github.stephanenicolas.toothpick:toothpick-compiler:$toothpick_version"
+    testCompile "com.github.stephanenicolas.toothpick:toothpick-testing:$toothpick_version"
+    testCompile 'org.mockito:mockito-core:2.2.26'
     testCompile 'junit:junit:4.12'
 }
