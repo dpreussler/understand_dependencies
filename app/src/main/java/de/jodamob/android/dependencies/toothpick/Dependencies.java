@@ -17,42 +17,34 @@ import static toothpick.Toothpick.openScope;
 public class Dependencies {
     private static final String DEFAULT_SCOPE = "DEFAULT_SCOPE";
 
-    private static Dependencies instance;
-    private final Scope baseScope;
+    private static Scope baseScope;
 
-    protected Dependencies(Application application) {
+    public static void init(Application application) {
         baseScope = setupBaseScope(application);
     }
 
-    public static Dependencies getInstance(Application application) {
-        if (instance == null) {
-            instance = new Dependencies(application);
-        }
-        return instance;
-    }
-
-    protected Scope setupBaseScope(Application application) {
+    private static Scope setupBaseScope(Application application) {
         setupReflectionFreeConfiguration();
         Scope scope = openScope(DEFAULT_SCOPE);
         scope.installModules(new BaseModule(application));
-        scope.installModules(new SmoothieApplicationModule(application));
+//        scope.installModules(new SmoothieApplicationModule(application));
         return scope;
     }
 
-    private void setupReflectionFreeConfiguration() {
+    private static void setupReflectionFreeConfiguration() {
         Toothpick.setConfiguration(Configuration.forProduction().disableReflection());
         // TODO
 //        FactoryRegistryLocator.setRootRegistry(new de.jodamob.android.dependencies.FactoryRegistry());
 //        MemberInjectorRegistryLocator.setRootRegistry(new de.jodamob.android.dependencies.MemberInjectorRegistry());
     }
 
-    public void inject(Activity activity) {
+    public static void inject(Activity activity) {
         Toothpick.inject(activity, baseScope);
     }
 
     @VisibleForTesting
-    static void set(Dependencies instance) {
-        Dependencies.instance = instance;
+    static void set(Scope scope) {
+        Dependencies.baseScope = scope;
     }
 
     private static class BaseModule extends Module {

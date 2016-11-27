@@ -13,6 +13,6 @@ public class MainApplication extends Application {
     }
 
     private void initToothpick() {
-        Dependencies.getInstance(this);
+        Dependencies.init(this);
     }
 }

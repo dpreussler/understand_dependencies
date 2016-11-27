@@ -30,17 +30,7 @@ public class SimpleActivityTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         toothPickRule.setScopeName("DEFAULT_SCOPE");
-        Dependencies.set(new Dependencies(mock(Application.class)){
-            @Override
-            protected Scope setupBaseScope(Application application) {
-                return openScope("TEST");
-            }
-
-            @Override
-            public void inject(Activity activity) {
-                Toothpick.inject(activity, toothPickRule.getScope());
-            }
-        });
+        Dependencies.set(toothPickRule.getScope());
     }
 
     @Test
