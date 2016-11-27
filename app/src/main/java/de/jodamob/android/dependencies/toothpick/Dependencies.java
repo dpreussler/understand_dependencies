@@ -10,6 +10,8 @@ import toothpick.Scope;
 import toothpick.Toothpick;
 import toothpick.config.Module;
 import toothpick.configuration.Configuration;
+import toothpick.registries.FactoryRegistryLocator;
+import toothpick.registries.MemberInjectorRegistryLocator;
 import toothpick.smoothie.module.SmoothieApplicationModule;
 
 import static toothpick.Toothpick.openScope;
@@ -33,9 +35,8 @@ public class Dependencies {
 
     private static void setupReflectionFreeConfiguration() {
         Toothpick.setConfiguration(Configuration.forProduction().disableReflection());
-        // TODO
-//        FactoryRegistryLocator.setRootRegistry(new de.jodamob.android.dependencies.FactoryRegistry());
-//        MemberInjectorRegistryLocator.setRootRegistry(new de.jodamob.android.dependencies.MemberInjectorRegistry());
+        FactoryRegistryLocator.setRootRegistry(new de.jodamob.android.dependencies.FactoryRegistry());
+        MemberInjectorRegistryLocator.setRootRegistry(new de.jodamob.android.dependencies.MemberInjectorRegistry());
     }
 
     public static void inject(Activity activity) {
