@@ -27,7 +27,7 @@ public class Dependencies {
         setupReflectionFreeConfiguration();
         Scope scope = openScope(DEFAULT_SCOPE);
         scope.installModules(new BaseModule(application));
-//        scope.installModules(new SmoothieApplicationModule(application));
+        scope.installModules(new SmoothieApplicationModule(application));
         return scope;
     }
 
