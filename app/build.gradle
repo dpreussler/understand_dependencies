@@ -1,0 +1,55 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
+    defaultConfig {
+        applicationId "dependencies.android.jodamob.de.dependencietests"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+apt {
+    arguments {
+        arg("toothpick_registry_package_name", "de.jodamob.android.dependencies")
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.google.dagger:dagger:2.7'
+    compile 'com.squareup.dagger:dagger:1.2.5'
+    testCompile 'org.mockito:mockito-core:2.2.26'
+    compile "com.github.stephanenicolas.toothpick:toothpick-runtime:$toothpick_version"
+    compile "com.github.stephanenicolas.toothpick:smoothie:$toothpick_version"
+    compile "com.github.stephanenicolas.toothpick:toothpick:$toothpick_version"
+    apt "com.github.stephanenicolas.toothpick:toothpick-compiler:$toothpick_version"
+    testCompile 'junit:junit:4.12'
+}
