@@ -34,9 +34,13 @@ apt {
 }
 
 dependencies {
+    apt "com.google.dagger:dagger-compiler:$dagger_version"
     apt "com.github.stephanenicolas.toothpick:toothpick-compiler:$toothpick_version"
 
     compile 'com.android.support:appcompat-v7:25.0.0'
+
+    compile "com.google.dagger:dagger:$dagger_version"
+
     compile "com.github.stephanenicolas.toothpick:toothpick-runtime:$toothpick_version"
     compile "com.github.stephanenicolas.toothpick:smoothie:$toothpick_version"
 
