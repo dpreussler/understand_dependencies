@@ -1,14 +1,21 @@
 package de.jodamob.android.dependencies.dagger;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.VisibleForTesting;
+
+import java.lang.annotation.Retention;
+
+import javax.inject.Scope;
 
 import dagger.Component;
 import dagger.Module;
 import dagger.Provides;
 import de.jodamob.android.dependencies.components.GoogleAnalyticsTracker;
 import de.jodamob.android.dependencies.components.Tracker;
+
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 public class Dependencies {
 
@@ -31,12 +38,6 @@ public class Dependencies {
         void inject(SimpleActivity activity);
     }
 
-    private static AppComponent component;
-
-    public static AppComponent getInjector() {
-        return component;
-    }
-
     @VisibleForTesting
     public static void init(AppComponent component) {
         Dependencies.component = component;
@@ -44,5 +45,48 @@ public class Dependencies {
 
     public static void init(Application application) {
         init(DaggerDependencies_AppComponent.builder().baseModule(new BaseModule(application)).build());
+    }
+
+    private static AppComponent component;
+
+    public static AppComponent getInjector() {
+        return component;
+    }
+
+
+    //////////////////
+    // scopes
+    //////////////////
+
+    @ActivityScope
+    public static ScopeComponent createScope(Activity activity) {
+        return DaggerDependencies_ScopeComponent.builder()
+                .baseModule(new BaseModule(activity.getApplication()))
+                .scopeModule(new ScopeModule(activity)).build();
+    }
+
+    @Module
+    static class ScopeModule {
+
+        private Activity activity;
+
+        public ScopeModule(Activity activity) {
+            this.activity = activity;
+        }
+
+        @Provides @ActivityScope
+        public Activity provideActivity() {
+            return activity;
+        }
+    }
+
+    @Scope
+    @Retention(RUNTIME)
+    public @interface ActivityScope {}
+
+    @Component(modules = {ScopeModule.class, BaseModule.class})
+    @ActivityScope
+    interface ScopeComponent extends AppComponent {
+        void inject(ScopeActivity activity);
     }
 }

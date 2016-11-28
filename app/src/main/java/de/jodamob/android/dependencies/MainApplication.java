@@ -2,7 +2,6 @@ package de.jodamob.android.dependencies;
 
 import android.app.Application;
 
-import de.jodamob.android.dependencies.toothpick.Dependencies;
 
 public class MainApplication extends Application {
 
@@ -10,9 +9,14 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         initToothpick();
+        initDagger();
+    }
+
+    private void initDagger() {
+        de.jodamob.android.dependencies.dagger.Dependencies.init(this);
     }
 
     private void initToothpick() {
-        Dependencies.init(this);
+        de.jodamob.android.dependencies.toothpick.Dependencies.init(this);
     }
 }
