@@ -2,8 +2,6 @@ package de.jodamob.android.dependencies.toothpick;
 
 import android.app.Activity;
 import android.app.Application;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import de.jodamob.android.dependencies.components.GoogleAnalyticsTracker;
 import de.jodamob.android.dependencies.components.Tracker;
@@ -17,14 +15,13 @@ import toothpick.smoothie.module.SmoothieApplicationModule;
 
 import static toothpick.Toothpick.closeScope;
 import static toothpick.Toothpick.openScope;
+import static toothpick.Toothpick.openScopes;
 
 public class Dependencies {
     private static final String DEFAULT_SCOPE = "DEFAULT_SCOPE";
 
-    private static Scope baseScope;
-
     public static void init(Application application) {
-        baseScope = setupBaseScope(application);
+        setupBaseScope(application);
     }
 
     private static Scope setupBaseScope(Application application) {
@@ -45,12 +42,7 @@ public class Dependencies {
     }
 
     public static void inject(Activity activity) {
-        Toothpick.inject(activity, baseScope);
-    }
-
-    @VisibleForTesting
-    static void set(Scope scope) {
-        Dependencies.baseScope = scope;
+        Toothpick.inject(activity, openScope(DEFAULT_SCOPE));
     }
 
     private static class BaseModule extends Module {
@@ -71,8 +63,7 @@ public class Dependencies {
     }
 
     public static void createScopeFor(Activity activity) {
-        Scope scope = openScope(activity.getClass().getName());
-        scope.installModules(getBaseModules(activity.getApplication()));
+        Scope scope = openScopes(DEFAULT_SCOPE, activity.getClass().getName());
         scope.installModules(new ScopeModule(activity));
     }
 

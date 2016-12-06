@@ -5,7 +5,6 @@ import android.support.annotation.VisibleForTesting;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.jodamob.android.dependencies.components.BackgroundServiceManager;
 import de.jodamob.android.dependencies.components.GoogleAnalyticsTracker;
 import de.jodamob.android.dependencies.components.Tracker;
 
@@ -18,7 +17,6 @@ public class Dependencies {
     static {
         GoogleAnalyticsTracker tracker = new GoogleAnalyticsTracker();
         modules.put(Tracker.class, tracker);
-        modules.put(BackgroundServiceManager.class, new BackgroundServiceManager(tracker));
     }
 
     @SuppressWarnings("unchecked")

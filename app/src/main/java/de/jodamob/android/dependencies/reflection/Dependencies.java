@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.support.annotation.VisibleForTesting;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,6 +47,21 @@ public class Dependencies {
             }
         }
         return null;
+    }
+
+    @SuppressWarnings("Since15")
+    @SuppressLint("NewApi")
+    static void inject(Object instance) {
+        final Field[] fields = instance.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            if (field.getDeclaredAnnotation(Inject.class) != null) {
+                try {
+                    field.set(instance, get(field.getType()));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @VisibleForTesting

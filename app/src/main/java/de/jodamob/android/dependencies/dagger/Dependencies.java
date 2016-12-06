@@ -12,6 +12,7 @@ import javax.inject.Scope;
 import dagger.Component;
 import dagger.Module;
 import dagger.Provides;
+import dagger.Subcomponent;
 import de.jodamob.android.dependencies.components.GoogleAnalyticsTracker;
 import de.jodamob.android.dependencies.components.Tracker;
 
@@ -33,10 +34,10 @@ public class Dependencies {
         }
     }
 
-    @Component(modules = {BaseModule.class})
-    interface AppComponent {
-        void inject(SimpleActivity activity);
-    }
+//    @Component(modules = {BaseModule.class})
+//    interface AppComponent {
+//        void inject(SimpleActivity activity);
+//    }
 
     @VisibleForTesting
     public static void init(AppComponent component) {
@@ -58,11 +59,15 @@ public class Dependencies {
     // scopes
     //////////////////
 
+    @Component(modules = {BaseModule.class})
+    interface AppComponent {
+        void inject(SimpleActivity activity);
+        ScopeComponent plus(ScopeModule module);
+    }
+
     @ActivityScope
     public static ScopeComponent createScope(Activity activity) {
-        return DaggerDependencies_ScopeComponent.builder()
-                .baseModule(new BaseModule(activity.getApplication()))
-                .scopeModule(new ScopeModule(activity)).build();
+        return component.plus(new ScopeModule(activity));
     }
 
     @Module
@@ -84,9 +89,9 @@ public class Dependencies {
     @Retention(RUNTIME)
     public @interface ActivityScope {}
 
-    @Component(modules = {ScopeModule.class, BaseModule.class})
     @ActivityScope
-    interface ScopeComponent extends AppComponent {
+    @Subcomponent(modules = {ScopeModule.class})
+    interface ScopeComponent {
         void inject(ScopeActivity activity);
     }
 }

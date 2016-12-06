@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:name=".MainApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".LonelyActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

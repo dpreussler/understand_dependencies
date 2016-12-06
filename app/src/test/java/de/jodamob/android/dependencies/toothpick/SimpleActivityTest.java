@@ -17,13 +17,12 @@ public class SimpleActivityTest {
     Tracker tracker;
 
     @Rule
-    public ToothPickRule toothPickRule = new ToothPickRule(this);
+    public ToothPickRule toothPickRule = new ToothPickRule(this, "DEFAULT_SCOPE");
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        toothPickRule.setScopeName("DEFAULT_SCOPE");
-        Dependencies.set(toothPickRule.getScope());
+//        Dependencies.set(toothPickRule.getScope());
     }
 
     @Test
